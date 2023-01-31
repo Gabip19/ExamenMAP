@@ -61,4 +61,14 @@ public class MenuItem extends Entity<Integer> {
     public int hashCode() {
         return Objects.hash(category, item, price, currency);
     }
+
+    @Override
+    public String toString() {
+        return "MenuItem{" +
+                "category='" + category + '\'' +
+                ", item='" + item + '\'' +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
+                '}';
+    }
 }
