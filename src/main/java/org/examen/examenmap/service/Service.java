@@ -1,6 +1,7 @@
 package org.examen.examenmap.service;
 
 import org.examen.examenmap.domain.MenuItem;
+import org.examen.examenmap.domain.Order;
 import org.examen.examenmap.domain.Table;
 import org.examen.examenmap.repository.Repository;
 
@@ -28,5 +29,9 @@ public class Service {
     public List<MenuItem> getMenuItemsFromCategory(String category) {
         return getAllMenuItems().stream()
                 .filter(item -> item.getCategory().equals(category)).toList();
+    }
+
+    public void placeOrder(int tableId, ArrayList<Integer> menuItemsIds) {
+        Order order = new Order(tableId, menuItemsIds, Order.OrderStatus.PLACED);
     }
 }

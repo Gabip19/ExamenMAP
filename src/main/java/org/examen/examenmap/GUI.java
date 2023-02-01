@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.examen.examenmap.controller.GuiController;
+import org.examen.examenmap.controller.TableController;
 import org.examen.examenmap.domain.MenuItem;
 import org.examen.examenmap.domain.Table;
 import org.examen.examenmap.repository.Repository;
@@ -18,7 +19,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader mainFxmlLoader = new FXMLLoader(GUI.class.getResource("hello-view.fxml"));
-        Scene mainScene = new Scene(mainFxmlLoader.load(), 320, 240);
+        Scene mainScene = new Scene(mainFxmlLoader.load(), 500, 500);
         stage.setTitle("Staff");
         stage.setScene(mainScene);
         stage.show();
@@ -28,10 +29,11 @@ public class GUI extends Application {
 
         srv.getAllTables().forEach(table -> {
             FXMLLoader loader = new FXMLLoader(GUI.class.getResource("table-view.fxml"));
-            Scene scene = null;
+            Scene scene;
             Stage newStage = new Stage();
             try {
-                scene = new Scene(loader.load(), 320, 240);
+                scene = new Scene(loader.load(), 400, 300);
+                ((TableController) loader.getController()).setTable(table);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
