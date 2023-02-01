@@ -20,14 +20,15 @@ import java.io.IOException;
 public class GUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader mainFxmlLoader = new FXMLLoader(GUI.class.getResource("hello-view.fxml"));
+        Service srv = createService();
+        GuiController.setSrv(srv);
+
+        FXMLLoader mainFxmlLoader = new FXMLLoader(GUI.class.getResource("staff-view.fxml"));
         Scene mainScene = new Scene(mainFxmlLoader.load(), 500, 500);
+        srv.addObserver(mainFxmlLoader.getController());
         stage.setTitle("Staff");
         stage.setScene(mainScene);
         stage.show();
-
-        Service srv = createService();
-        GuiController.setSrv(srv);
 
         srv.getAllTables().forEach(table -> {
             FXMLLoader loader = new FXMLLoader(GUI.class.getResource("table-view.fxml"));

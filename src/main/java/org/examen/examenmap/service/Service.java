@@ -4,13 +4,14 @@ import org.examen.examenmap.domain.MenuItem;
 import org.examen.examenmap.domain.Order;
 import org.examen.examenmap.domain.Table;
 import org.examen.examenmap.repository.Repository;
+import org.examen.examenmap.utils.ConcreteObservable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Service {
+public class Service extends ConcreteObservable {
     private final Repository<Integer, Table> tableRepo;
     private final Repository<Integer, MenuItem> menuRepo;
     private final Repository<Integer, Order> orderRepo;
@@ -37,5 +38,14 @@ public class Service {
     public void placeOrder(int tableId, ArrayList<Integer> menuItemsIds) {
         Order order = new Order(tableId, menuItemsIds, LocalDateTime.now(), Order.OrderStatus.PLACED);
         orderRepo.save(order);
+        notifyObservers();
+    }
+
+    public MenuItem getMenuItemWithId(int id) {
+        return menuRepo.findOne(id);
+    }
+
+    public ArrayList<Order> getAllOrders() {
+        return new ArrayList<>((Collection<Order>) orderRepo.findAll());
     }
 }
