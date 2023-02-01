@@ -6,6 +6,7 @@ import org.examen.examenmap.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class Service {
     private final Repository<Integer, Table> tableRepo;
@@ -22,5 +23,10 @@ public class Service {
 
     public ArrayList<MenuItem> getAllMenuItems() {
         return new ArrayList<>((Collection<MenuItem>) menuRepo.findAll());
+    }
+
+    public List<MenuItem> getMenuItemsFromCategory(String category) {
+        return getAllMenuItems().stream()
+                .filter(item -> item.getCategory().equals(category)).toList();
     }
 }

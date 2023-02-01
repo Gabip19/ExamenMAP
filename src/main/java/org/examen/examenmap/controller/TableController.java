@@ -1,9 +1,12 @@
 package org.examen.examenmap.controller;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import org.examen.examenmap.domain.MenuItem;
 import org.examen.examenmap.gui.MenuItemRow;
@@ -28,24 +31,36 @@ public class TableController extends GuiController {
             itemsByCategory.get(item.getCategory()).add(item);
         });
 
-        itemsByCategory.keySet().forEach(item -> {
-            categoryVBox.getChildren().add(new Label(item));
+        itemsByCategory.keySet().forEach(category -> {
+            categoryVBox.getChildren().add(new Label(category));
 
-            ListView<MenuItemRow> categoryView = new ListView<>();
-            ObservableList<MenuItemRow> rows = FXCollections.observableArrayList();
-            srv.getAllMenuItems().stream()
-                    .filter(param -> param.getCategory().equals(item))
-                    .forEach(x -> {
-                        MenuItemRow itemRow = new MenuItemRow(x);
-                        rows.add(itemRow);
-                    });
-            categoryView.setItems(rows);
-            categoryView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            TableView<MenuItem> categoryTableView = new TableView<>();
+            categoryTableView.setMaxHeight(Double.MAX_VALUE);
 
-            categoryViews.add(categoryView);
-            categoryVBox.getChildren().add(categoryView);
+            TableColumn<MenuItem, String> itemNameColumn = new TableColumn<>("ITEM");
+            itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("item"));
+
+            TableColumn<MenuItem, String> priceColumn = new TableColumn<>("PRICE");
+            priceColumn.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(
+                            cellData.getValue().getPrice() + " " + cellData.getValue().getCurrency())
+            );
+
+            categoryTableView.getColumns().add(0, itemNameColumn);
+            categoryTableView.getColumns().add(1, priceColumn);
+
+            ObservableList<MenuItem> obsItemList = FXCollections.observableArrayList(
+                    srv.getMenuItemsFromCategory(category)
+            );
+            categoryTableView.setItems(obsItemList);
+
+            categoryVBox.getChildren().add(categoryTableView);
         });
 
+        setPlaceOrderButtonAction();
+    }
+
+    private void setPlaceOrderButtonAction() {
         placeOrderButton.setOnAction(param ->
             categoryViews.forEach(view ->
                     view.getSelectionModel().getSelectedItems()

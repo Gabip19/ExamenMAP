@@ -7,4 +7,6 @@ module org.examen.examenmap {
     exports org.examen.examenmap;
     opens org.examen.examenmap.controller to javafx.fxml;
     exports org.examen.examenmap.controller;
+    opens org.examen.examenmap.domain to javafx.fxml;
+    exports org.examen.examenmap.domain;
 }
