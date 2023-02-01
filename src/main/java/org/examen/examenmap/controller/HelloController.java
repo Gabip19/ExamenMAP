@@ -1,4 +1,4 @@
-package org.examen.examenmap;
+package org.examen.examenmap.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
