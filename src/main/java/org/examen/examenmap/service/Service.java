@@ -5,6 +5,7 @@ import org.examen.examenmap.domain.Order;
 import org.examen.examenmap.domain.Table;
 import org.examen.examenmap.repository.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,10 +13,12 @@ import java.util.List;
 public class Service {
     private final Repository<Integer, Table> tableRepo;
     private final Repository<Integer, MenuItem> menuRepo;
+    private final Repository<Integer, Order> orderRepo;
 
-    public Service(Repository<Integer, Table> tableRepo, Repository<Integer, MenuItem> menuRepo) {
+    public Service(Repository<Integer, Table> tableRepo, Repository<Integer, MenuItem> menuRepo, Repository<Integer, Order> orderRepo) {
         this.tableRepo = tableRepo;
         this.menuRepo = menuRepo;
+        this.orderRepo = orderRepo;
     }
 
     public ArrayList<Table> getAllTables() {
@@ -32,6 +35,7 @@ public class Service {
     }
 
     public void placeOrder(int tableId, ArrayList<Integer> menuItemsIds) {
-        Order order = new Order(tableId, menuItemsIds, Order.OrderStatus.PLACED);
+        Order order = new Order(tableId, menuItemsIds, LocalDateTime.now(), Order.OrderStatus.PLACED);
+        orderRepo.save(order);
     }
 }

@@ -16,10 +16,27 @@ public class Order extends Entity<Integer> {
         SERVED
     }
 
-    public Order(int tableId, ArrayList<Integer> menuItemIds, OrderStatus orderStatus) {
+    public Order(int id, int tableId, ArrayList<Integer> menuItemIds, LocalDateTime date, OrderStatus orderStatus) {
         this.tableId = tableId;
         this.menuItemIds = menuItemIds;
+        this.date = date;
         this.orderStatus = orderStatus;
+        super.setId(id);
+    }
+
+    public Order(int tableId, ArrayList<Integer> menuItemIds, LocalDateTime date, OrderStatus orderStatus) {
+        this.tableId = tableId;
+        this.menuItemIds = menuItemIds;
+        this.date = date;
+        this.orderStatus = orderStatus;
+    }
+
+    public int getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
     }
 
     public ArrayList<Integer> getMenuItemIds() {
