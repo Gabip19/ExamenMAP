@@ -1,6 +1,8 @@
 package org.examen.examenmap.controller;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import org.examen.examenmap.domain.Bed;
 import org.examen.examenmap.utils.events.PatientEvent;
 import org.examen.examenmap.utils.observers.Observer;
@@ -10,9 +12,20 @@ public class BedsController extends GuiController implements Observer<PatientEve
     public Label ticLabel;
     public Label timLabel;
     public Label tiipLabel;
+    public TextField cnpTextField;
+    public Button removeBtn;
 
     public void initialize() {
         computeBedsNumber();
+        initRemoveButtonAction();
+    }
+
+    private void initRemoveButtonAction() {
+        removeBtn.setOnAction(param -> {
+            if (!cnpTextField.getText().isEmpty()) {
+                srv.removePatient(cnpTextField.getText());
+            }
+        });
     }
 
     private void computeBedsNumber() {

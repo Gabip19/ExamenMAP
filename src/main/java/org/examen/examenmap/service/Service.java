@@ -21,7 +21,6 @@ public class Service extends ConcreteObservable<PatientEvent> {
     public Service(PatientDatabaseRepo patientRepo, Repository<UUID, Bed> bedRepo) {
         this.patientRepo = patientRepo;
         this.bedRepo = bedRepo;
-
 //        patientRepo.save(new Patient("1234567891234", 10, false, "blabla", 1));
 //        bedRepo.save(new Bed(false, "1234567891234", Bed.BedType.TIIP));
     }
@@ -60,4 +59,20 @@ public class Service extends ConcreteObservable<PatientEvent> {
         }
         notifyObservers(new PatientEvent(ChangeEventType.ADD, patient));
     }
+
+    public void removePatient(String cnp) {
+        for (Patient patient : getAllPatients()) {
+            if (patient.getCNP().equals(cnp)) {
+                getAllBeds().forEach(bed -> {
+                    if (bed.getPatientCNP() != null && bed.getPatientCNP().equals(cnp)) {
+                        bed.setPatientCNP(null);
+                        bedRepo.update(bed);
+                    }
+                });
+                return;
+            }
+        }
+        throw new NoEmptyBedsException("Invalid CNP.\n");
+    }
+
 }
