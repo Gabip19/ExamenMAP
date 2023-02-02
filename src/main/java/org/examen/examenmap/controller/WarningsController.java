@@ -3,14 +3,15 @@ package org.examen.examenmap.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import org.examen.examenmap.domain.Locality;
 import org.examen.examenmap.domain.River;
+import org.examen.examenmap.gui.LocalityInfo;
 import org.examen.examenmap.utils.events.RiverEvent;
 import org.examen.examenmap.utils.observers.Observer;
+
 
 public class WarningsController extends GuiController implements Observer<RiverEvent> {
 
@@ -28,12 +29,42 @@ public class WarningsController extends GuiController implements Observer<RiverE
         initTableView(avgRiskTableView);
         initTableView(hugeRiskTableView);
 
+        initTableViewColors();
+        initTableViewClickAction();
+
         updateLocalities();
 
         minRiskTableView.setItems(minRiskLocalities);
         avgRiskTableView.setItems(avgRiskLocalities);
         hugeRiskTableView.setItems(hugeRiskLocalities);
 
+    }
+
+    private void initTableViewClickAction() {
+        minRiskTableView.setRowFactory( tv -> {
+            TableRow<Locality> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Locality rowData = row.getItem();
+                    var a = new LocalityInfo(rowData);
+                }
+            });
+            return row ;
+        });
+    }
+
+    private void initTableViewColors() {
+        minRiskTableView.getColumns().forEach(column ->
+                column.setStyle("-fx-background-color: rgba(18,224,18,0.5)")
+        );
+
+        avgRiskTableView.getColumns().forEach(column ->
+                column.setStyle("-fx-background-color: rgba(255,164,0,0.5)")
+        );
+
+        hugeRiskTableView.getColumns().forEach(column ->
+                column.setStyle("-fx-background-color: rgba(199,13,13,0.5)")
+        );
     }
 
     private void initTableView(TableView<Locality> tableView) {
