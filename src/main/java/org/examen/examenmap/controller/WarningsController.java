@@ -30,7 +30,10 @@ public class WarningsController extends GuiController implements Observer<RiverE
         initTableView(hugeRiskTableView);
 
         initTableViewColors();
-        initTableViewClickAction();
+
+        initTableViewClickAction(minRiskTableView);
+        initTableViewClickAction(avgRiskTableView);
+        initTableViewClickAction(hugeRiskTableView);
 
         updateLocalities();
 
@@ -40,8 +43,8 @@ public class WarningsController extends GuiController implements Observer<RiverE
 
     }
 
-    private void initTableViewClickAction() {
-        minRiskTableView.setRowFactory( tv -> {
+    private void initTableViewClickAction(TableView<Locality> tableView) {
+        tableView.setRowFactory(tv -> {
             TableRow<Locality> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
@@ -49,7 +52,7 @@ public class WarningsController extends GuiController implements Observer<RiverE
                     var a = new LocalityInfo(rowData);
                 }
             });
-            return row ;
+            return row;
         });
     }
 
