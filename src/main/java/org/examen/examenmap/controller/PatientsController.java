@@ -2,12 +2,11 @@ package org.examen.examenmap.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.examen.examenmap.domain.Bed;
 import org.examen.examenmap.domain.Patient;
+import org.examen.examenmap.domain.exceptions.NoEmptyBedsException;
 
 public class PatientsController extends GuiController {
     public TableView<Patient> patientsTableView;
@@ -39,20 +38,25 @@ public class PatientsController extends GuiController {
 
     private void initButtonActions() {
         ticBtn.setOnAction(param -> {
-            Patient patient =  patientsTableView.getSelectionModel().getSelectedItem();
-            srv.giveBedToPatient(patient, Bed.BedType.TIC);
-            updatePatientList();
+            handleButtonPressed(Bed.BedType.TIC);
         });
         timBtn.setOnAction(param -> {
-            Patient patient =  patientsTableView.getSelectionModel().getSelectedItem();
-            srv.giveBedToPatient(patient, Bed.BedType.TIM);
-            updatePatientList();
+            handleButtonPressed(Bed.BedType.TIM);
         });
         tiipBtn.setOnAction(param -> {
-            Patient patient =  patientsTableView.getSelectionModel().getSelectedItem();
-            srv.giveBedToPatient(patient, Bed.BedType.TIIP);
-            updatePatientList();
+            handleButtonPressed(Bed.BedType.TIIP);
         });
+    }
+
+    private void handleButtonPressed(Bed.BedType type) {
+        try {
+            Patient patient = patientsTableView.getSelectionModel().getSelectedItem();
+            srv.giveBedToPatient(patient, type);
+            updatePatientList();
+        } catch (NoEmptyBedsException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            a.show();
+        }
     }
 
     private void updatePatientList() {

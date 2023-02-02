@@ -20,7 +20,7 @@ public class GUI extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("beds-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 400);
-
+        srv.addObserver(fxmlLoader.getController());
         stage.setTitle("Beds");
         stage.setScene(scene);
         stage.show();

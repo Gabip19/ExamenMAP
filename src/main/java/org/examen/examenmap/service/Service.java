@@ -2,15 +2,19 @@ package org.examen.examenmap.service;
 
 import org.examen.examenmap.domain.Bed;
 import org.examen.examenmap.domain.Patient;
+import org.examen.examenmap.domain.exceptions.NoEmptyBedsException;
 import org.examen.examenmap.repository.Repository;
 import org.examen.examenmap.repository.database.PatientDatabaseRepo;
+import org.examen.examenmap.utils.events.ChangeEventType;
+import org.examen.examenmap.utils.events.PatientEvent;
+import org.examen.examenmap.utils.observers.ConcreteObservable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Service {
+public class Service extends ConcreteObservable<PatientEvent> {
     private final PatientDatabaseRepo patientRepo;
     private final Repository<UUID, Bed> bedRepo;
 
@@ -44,7 +48,8 @@ public class Service {
             bed.setPatientCNP(patient.getCNP());
             bedRepo.update(bed);
         } else {
-            throw new RuntimeException("No empty beds for given type.\n");
+            throw new NoEmptyBedsException("No empty beds for given type.\n");
         }
+        notifyObservers(new PatientEvent(ChangeEventType.ADD, patient));
     }
 }

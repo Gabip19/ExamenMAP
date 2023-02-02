@@ -1,4 +1,4 @@
-package org.examen.examenmap.domain.validators.exceptions;
+package org.examen.examenmap.domain.exceptions;
 
 public class ValidationException extends RuntimeException {
     public ValidationException() {
