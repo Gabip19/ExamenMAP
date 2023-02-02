@@ -14,6 +14,7 @@ public class PatientsController extends GuiController {
     public Button ticBtn;
     public Button timBtn;
     public Button tiipBtn;
+    public CheckBox ventilationCheckBox;
 
     public void initialize() {
         TableColumn<Patient, String> cnpColumn = new TableColumn<>("CNP");
@@ -51,7 +52,7 @@ public class PatientsController extends GuiController {
     private void handleButtonPressed(Bed.BedType type) {
         try {
             Patient patient = patientsTableView.getSelectionModel().getSelectedItem();
-            srv.giveBedToPatient(patient, type);
+            srv.giveBedToPatient(patient, type, ventilationCheckBox.isSelected());
             updatePatientList();
         } catch (NoEmptyBedsException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);

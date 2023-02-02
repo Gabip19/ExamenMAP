@@ -38,10 +38,18 @@ public class Service extends ConcreteObservable<PatientEvent> {
         return patientRepo.getWaitingPatients();
     }
 
-    public void giveBedToPatient(Patient patient, Bed.BedType bedType) {
+    public void giveBedToPatient(Patient patient, Bed.BedType bedType, boolean ventilation) {
         Optional<Bed> emptyBedOpt = getAllBeds()
                 .stream()
-                .filter(bed -> bed.getType().equals(bedType) && bed.getPatientCNP() == null)
+                .filter(bed -> {
+                    if (bed.getType().equals(bedType) && bed.getPatientCNP() == null) {
+                        if (ventilation) {
+                            return bed.hasVentilation();
+                        }
+                        return true;
+                    }
+                    return false;
+                })
                 .findFirst();
         if (emptyBedOpt.isPresent()) {
             Bed bed = emptyBedOpt.get();
