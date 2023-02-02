@@ -14,12 +14,19 @@ public class RiversController extends GuiController {
 
     @FXML
     public TableView<River> riversTableView;
+    @FXML
     public TextField riverAltTextField;
+    @FXML
     public Button modifyAltBtn;
 
     private ObservableList<River> rivers = FXCollections.observableArrayList(srv.getAllRivers());
 
     public void initialize() {
+        initTableView();
+        initModifyAltBtnAction();
+    }
+
+    private void initTableView() {
         TableColumn<River, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<River, Integer> altitudeColumn = new TableColumn<>("Average Altitude");
@@ -28,5 +35,17 @@ public class RiversController extends GuiController {
         riversTableView.getColumns().add(0, nameColumn);
         riversTableView.getColumns().add(1, altitudeColumn);
         riversTableView.setItems(rivers);
+    }
+
+    private void initModifyAltBtnAction() {
+        modifyAltBtn.setOnAction(param -> {
+            if (!riverAltTextField.getText().isEmpty()) {
+                River riverToUpdate = riversTableView.getSelectionModel().getSelectedItem();
+                riverToUpdate.setAvgAltitude(Integer.parseInt(riverAltTextField.getText()));
+//                System.out.println(riverAltTextField.getText());
+                srv.updateRiver(riverToUpdate);
+                rivers.setAll(srv.getAllRivers());
+            }
+        });
     }
 }

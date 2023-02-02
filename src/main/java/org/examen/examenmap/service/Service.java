@@ -35,4 +35,8 @@ public class Service {
     public River findRiverById(UUID riverId) {
         return riverRepo.findOne(riverId);
     }
+
+    public void updateRiver(River riverToUpdate) {
+        riverRepo.update(riverToUpdate);
+    }
 }
