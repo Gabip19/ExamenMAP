@@ -9,6 +9,7 @@ public class River extends Entity<UUID> {
     public River(String name, int avgAltitude) {
         this.name = name;
         this.avgAltitude = avgAltitude;
+        setId(UUID.randomUUID());
     }
 
     public River(UUID id, String name, int avgAltitude) {

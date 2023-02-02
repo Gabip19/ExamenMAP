@@ -1,5 +1,6 @@
 package org.examen.examenmap.repository.database;
 
 public enum DatabaseTables {
-    rivers
+    rivers,
+    localities
 }
