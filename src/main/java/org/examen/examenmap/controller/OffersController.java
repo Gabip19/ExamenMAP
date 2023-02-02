@@ -15,7 +15,7 @@ public class OffersController extends GuiController {
     public Button searchBtn;
     public TableView<Offer> offersTableView;
     private final ObservableList<Offer> offers = FXCollections.observableArrayList();
-    private final TableView<Offer> searchTableView = new TableView<>();
+    public TableView<Offer> searchTableView = new TableView<>();
     private final ObservableList<Offer> searchOfferResult = FXCollections.observableArrayList();
 
     public void initialize() {
