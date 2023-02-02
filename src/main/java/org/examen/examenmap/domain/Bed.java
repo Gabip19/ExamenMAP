@@ -17,6 +17,7 @@ public class Bed extends Entity<UUID> {
         this.ventilation = ventilation;
         this.patientCNP = patientCNP;
         this.type = type;
+        setId(UUID.randomUUID());
     }
 
     public Bed(UUID id, boolean ventilation, String patientCNP, BedType type) {

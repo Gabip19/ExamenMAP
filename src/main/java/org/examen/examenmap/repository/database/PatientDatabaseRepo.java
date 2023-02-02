@@ -5,6 +5,8 @@ import org.examen.examenmap.domain.Patient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PatientDatabaseRepo extends AbstractDatabaseRepository<String, Patient> {
 
@@ -69,6 +71,21 @@ public class PatientDatabaseRepo extends AbstractDatabaseRepository<String, Pati
         int severity = resultSet.getInt("severity");
 
         return new Patient(cnp, age, premature, diagnosis, severity);
+    }
+
+    public ArrayList<Patient> getWaitingPatients() {
+        ArrayList<Patient> entities = new ArrayList<>();
+
+        String sql = "select * from patients P left join beds B on P.cnp = B.patient_cnp where B.id is NULL";
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            entities = (ArrayList<Patient>) getEntitiesFromResult(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return entities;
     }
 
 }
