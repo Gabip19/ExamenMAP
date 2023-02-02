@@ -7,6 +7,7 @@ import org.examen.examenmap.repository.database.PatientDatabaseRepo;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Service {
@@ -31,5 +32,19 @@ public class Service {
 
     public ArrayList<Patient> getWaitingPatients() {
         return patientRepo.getWaitingPatients();
+    }
+
+    public void giveBedToPatient(Patient patient, Bed.BedType bedType) {
+        Optional<Bed> emptyBedOpt = getAllBeds()
+                .stream()
+                .filter(bed -> bed.getType().equals(bedType) && bed.getPatientCNP() == null)
+                .findFirst();
+        if (emptyBedOpt.isPresent()) {
+            Bed bed = emptyBedOpt.get();
+            bed.setPatientCNP(patient.getCNP());
+            bedRepo.update(bed);
+        } else {
+            throw new RuntimeException("No empty beds for given type.\n");
+        }
     }
 }

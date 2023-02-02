@@ -48,7 +48,7 @@ public class BedDatabaseRepo extends AbstractDatabaseRepository<UUID, Bed> {
                 statement.setString(1, String.valueOf(entity.getType()));
                 statement.setBoolean(2, entity.hasVentilation());
                 statement.setString(3, entity.getPatientCNP());
-                statement.setString(4, entity.getPatientCNP());
+                statement.setObject(4, entity.getId());
                 statement.executeUpdate();
 
                 return entity;
