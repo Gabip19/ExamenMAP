@@ -1,10 +1,12 @@
 package org.examen.examenmap;
 
-import org.examen.examenmap.controller.GuiController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.examen.examenmap.controller.GuiController;
+import org.examen.examenmap.repository.database.DatabaseTables;
+import org.examen.examenmap.repository.database.RiverDatabaseRepo;
 import org.examen.examenmap.service.Service;
 
 import java.io.IOException;
@@ -13,14 +15,14 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-//        GuiController.setSrv(createNetwork());
+        GuiController.setSrv(createNetwork());
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("rivers-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
 
 //        GuiController.setCurrentStage(stage);
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Rivers");
         stage.setScene(scene);
         stage.show();
     }
@@ -31,26 +33,12 @@ public class GUI extends Application {
 
     private Service createNetwork() {
         return new Service(
-//                new UserService(new UserDatabaseRepo(
-//                        DatabaseTables.users.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD,
-//                        new UserValidator()
-//                )),
-//                new FriendshipService(new FriendshipDatabaseRepo(
-//                        DatabaseTables.friendships.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD,
-//                        new FriendshipValidator()
-//                )),
-//                new TextMessageService(new TextMessageDatabaseRepo(
-//                        DatabaseTables.messages.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD
-//                ))
+                new RiverDatabaseRepo(
+                        DatabaseTables.rivers.toString(),
+                        "jdbc:postgresql://localhost:5432/ExamData",
+                        "postgres",
+                        "postgres"
+                )
         );
     }
 }
