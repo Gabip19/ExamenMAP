@@ -15,7 +15,7 @@ public class GUI extends Application {
     public void start(Stage stage) throws IOException {
 //        GuiController.setSrv(createNetwork());
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("beds-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 300);
 
 //        GuiController.setCurrentStage(stage);
