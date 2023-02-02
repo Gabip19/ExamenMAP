@@ -1,18 +1,18 @@
 package org.examen.examenmap.controller;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import org.examen.examenmap.domain.Locality;
 import org.examen.examenmap.domain.River;
+import org.examen.examenmap.utils.events.RiverEvent;
+import org.examen.examenmap.utils.observers.Observer;
 
-public class WarningsController extends GuiController {
+public class WarningsController extends GuiController implements Observer<RiverEvent> {
 
     public VBox mainVBox;
     public TableView<Locality> minRiskTableView;
@@ -74,12 +74,10 @@ public class WarningsController extends GuiController {
                 minRiskLocalities.add(locality);
             }
         });
+    }
 
-        System.out.println("Min");
-        minRiskLocalities.forEach(System.out::println);
-        System.out.println("Avg");
-        avgRiskLocalities.forEach(System.out::println);
-        System.out.println("Huge");
-        hugeRiskLocalities.forEach(System.out::println);
+    @Override
+    public void update(RiverEvent event) {
+        updateLocalities();
     }
 }

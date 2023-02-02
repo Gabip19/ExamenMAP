@@ -3,12 +3,15 @@ package org.examen.examenmap.service;
 import org.examen.examenmap.domain.Locality;
 import org.examen.examenmap.domain.River;
 import org.examen.examenmap.repository.Repository;
+import org.examen.examenmap.utils.events.ChangeEventType;
+import org.examen.examenmap.utils.events.RiverEvent;
+import org.examen.examenmap.utils.observers.ConcreteObservable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public class Service {
+public class Service extends ConcreteObservable<RiverEvent> {
     private final Repository<UUID, River> riverRepo;
     private final Repository<UUID, Locality> localityRepo;
 
@@ -38,5 +41,6 @@ public class Service {
 
     public void updateRiver(River riverToUpdate) {
         riverRepo.update(riverToUpdate);
+        notifyObservers(new RiverEvent(ChangeEventType.UPDATE, riverToUpdate));
     }
 }

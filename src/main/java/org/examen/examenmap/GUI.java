@@ -16,7 +16,8 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        GuiController.setSrv(createNetwork());
+        Service srv = createNetwork();
+        GuiController.setSrv(srv);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("rivers-view.fxml"));
         Scene riversScene = new Scene(fxmlLoader.load(), 500, 500);
@@ -27,6 +28,7 @@ public class GUI extends Application {
         FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("warnings-view.fxml"));
         Scene warningsScene = new Scene(fxmlLoader2.load(), 500, 500);
         Stage stage2 = new Stage();
+        srv.addObserver(fxmlLoader2.getController());
         stage2.setTitle("Warnings");
         stage2.setScene(warningsScene);
         stage2.show();
