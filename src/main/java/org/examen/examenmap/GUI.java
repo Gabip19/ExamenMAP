@@ -5,24 +5,31 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.examen.examenmap.repository.database.OfferDatabaseRepo;
 import org.examen.examenmap.service.Service;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-//        GuiController.setSrv(createNetwork());
+        Service srv = createNetwork();
+        GuiController.setSrv(srv);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        System.out.print("Employee number: ");
+        Scanner scanner = new Scanner(System.in);
+        int employeeNum = scanner.nextInt();
 
-//        GuiController.setCurrentStage(stage);
-
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+        for (int i = 0; i < employeeNum; i++) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("offers-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+            Stage stage1 = new Stage();
+            stage1.setScene(scene);
+            stage1.setTitle("Employee " + i);
+            stage1.show();
+        }
     }
 
     public static void main(String[] args) {
@@ -31,26 +38,12 @@ public class GUI extends Application {
 
     private Service createNetwork() {
         return new Service(
-//                new UserService(new UserDatabaseRepo(
-//                        DatabaseTables.users.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD,
-//                        new UserValidator()
-//                )),
-//                new FriendshipService(new FriendshipDatabaseRepo(
-//                        DatabaseTables.friendships.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD,
-//                        new FriendshipValidator()
-//                )),
-//                new TextMessageService(new TextMessageDatabaseRepo(
-//                        DatabaseTables.messages.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD
-//                ))
+                new OfferDatabaseRepo(
+                        "offers",
+                        "jdbc:postgresql://localhost:5432/ExamData",
+                        "postgres",
+                        "postgres"
+                )
         );
     }
 }
