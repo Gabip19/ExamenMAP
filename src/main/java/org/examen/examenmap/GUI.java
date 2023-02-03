@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.examen.examenmap.repository.database.BookingDatabaseRepo;
 import org.examen.examenmap.repository.database.OfferDatabaseRepo;
 import org.examen.examenmap.service.Service;
 
@@ -24,7 +25,10 @@ public class GUI extends Application {
 
         for (int i = 0; i < employeeNum; i++) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("offers-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+            Scene scene = new Scene(fxmlLoader.load(), 700, 700);
+
+            srv.addObserver(fxmlLoader.getController());
+
             Stage stage1 = new Stage();
             stage1.setScene(scene);
             stage1.setTitle("Employee " + i);
@@ -40,6 +44,12 @@ public class GUI extends Application {
         return new Service(
                 new OfferDatabaseRepo(
                         "offers",
+                        "jdbc:postgresql://localhost:5432/ExamData",
+                        "postgres",
+                        "postgres"
+                ),
+                new BookingDatabaseRepo(
+                        "bookings",
                         "jdbc:postgresql://localhost:5432/ExamData",
                         "postgres",
                         "postgres"

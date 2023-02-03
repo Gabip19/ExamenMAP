@@ -8,8 +8,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.examen.examenmap.domain.Offer;
+import org.examen.examenmap.utils.events.BookingEvent;
+import org.examen.examenmap.utils.observers.Observer;
 
-public class OffersController extends GuiController {
+public class OffersController extends GuiController implements Observer<BookingEvent> {
 
     public TextField searchTextField;
     public Button searchBtn;
@@ -17,6 +19,10 @@ public class OffersController extends GuiController {
     private final ObservableList<Offer> offers = FXCollections.observableArrayList();
     public TableView<Offer> searchTableView = new TableView<>();
     private final ObservableList<Offer> searchOfferResult = FXCollections.observableArrayList();
+    public TextField clientNameField;
+    public TextField addressField;
+    public TextField personsField;
+    public Button bookDestBtn;
 
     public void initialize() {
         updateOffersList();
@@ -60,5 +66,24 @@ public class OffersController extends GuiController {
                 searchOfferResult.setAll(srv.searchOfferByDestination(searchTextField.getText()));
             }
         });
+    }
+
+    public void bookDestination() {
+        if (clientNameField.getText().isEmpty() || addressField.getText().isEmpty() || personsField.getText().isEmpty())
+            return;
+        Offer offer = searchTableView.getSelectionModel().getSelectedItem();
+        if (offer != null) {
+            srv.bookDestination(
+                    offer,
+                    clientNameField.getText(),
+                    addressField.getText(),
+                    Integer.parseInt(personsField.getText())
+            );
+        }
+    }
+
+    @Override
+    public void update(BookingEvent event) {
+        updateOffersList();
     }
 }
