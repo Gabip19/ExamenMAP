@@ -1,5 +1,6 @@
 package org.examen.examenmap;
 
+import org.examen.examenmap.config.ApplicationContext;
 import org.examen.examenmap.controller.ClientController;
 import org.examen.examenmap.controller.GuiController;
 import javafx.application.Application;
@@ -56,27 +57,27 @@ public class GUI extends Application {
         return new Service(
                 new LocationDatabaseRepo(
                         "locations",
-                        "jdbc:postgresql://localhost:5432/ExamData",
-                        "postgres",
-                        "postgres"
+                        ApplicationContext.DATABASE_URL,
+                        ApplicationContext.USER,
+                        ApplicationContext.PASSWORD
                 ),
                 new HotelDatabaseRepo(
                         "hotels",
-                        "jdbc:postgresql://localhost:5432/ExamData",
-                        "postgres",
-                        "postgres"
+                        ApplicationContext.DATABASE_URL,
+                        ApplicationContext.USER,
+                        ApplicationContext.PASSWORD
                 ),
                 new SpecialOfferDatabaseRepo(
                         "offers",
-                        "jdbc:postgresql://localhost:5432/ExamData",
-                        "postgres",
-                        "postgres"
+                        ApplicationContext.DATABASE_URL,
+                        ApplicationContext.USER,
+                        ApplicationContext.PASSWORD
                 ),
                 new ClientDatabaseRepo(
                         "clients",
-                        "jdbc:postgresql://localhost:5432/ExamData",
-                        "postgres",
-                        "postgres"
+                        ApplicationContext.DATABASE_URL,
+                        ApplicationContext.USER,
+                        ApplicationContext.PASSWORD
                 )
         );
     }
