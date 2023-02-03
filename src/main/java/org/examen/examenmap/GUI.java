@@ -5,6 +5,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.examen.examenmap.repository.database.HotelDatabaseRepo;
+import org.examen.examenmap.repository.database.LocationDatabaseRepo;
+import org.examen.examenmap.repository.database.SpecialOfferDatabaseRepo;
 import org.examen.examenmap.service.Service;
 
 import java.io.IOException;
@@ -13,14 +16,13 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-//        GuiController.setSrv(createNetwork());
+        Service srv = createService();
+        GuiController.setSrv(srv);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hotels-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
-//        GuiController.setCurrentStage(stage);
-
-        stage.setTitle("Hello!");
+        stage.setTitle("Hotels");
         stage.setScene(scene);
         stage.show();
     }
@@ -29,28 +31,26 @@ public class GUI extends Application {
         launch();
     }
 
-    private Service createNetwork() {
+    private Service createService() {
         return new Service(
-//                new UserService(new UserDatabaseRepo(
-//                        DatabaseTables.users.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD,
-//                        new UserValidator()
-//                )),
-//                new FriendshipService(new FriendshipDatabaseRepo(
-//                        DatabaseTables.friendships.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD,
-//                        new FriendshipValidator()
-//                )),
-//                new TextMessageService(new TextMessageDatabaseRepo(
-//                        DatabaseTables.messages.toString(),
-//                        ApplicationContext.DATABASE_URL,
-//                        ApplicationContext.DB_USERNAME,
-//                        ApplicationContext.DB_PASSWORD
-//                ))
+                new LocationDatabaseRepo(
+                        "locations",
+                        "jdbc:postgresql://localhost:5432/ExamData",
+                        "postgres",
+                        "postgres"
+                ),
+                new HotelDatabaseRepo(
+                        "hotels",
+                        "jdbc:postgresql://localhost:5432/ExamData",
+                        "postgres",
+                        "postgres"
+                ),
+                new SpecialOfferDatabaseRepo(
+                        "offers",
+                        "jdbc:postgresql://localhost:5432/ExamData",
+                        "postgres",
+                        "postgres"
+                )
         );
     }
 }

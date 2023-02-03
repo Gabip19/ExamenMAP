@@ -15,4 +15,9 @@ public class Location extends Entity<Double> {
     public void setLocationName(String locationName) {
         this.locationName = locationName;
     }
+
+    @Override
+    public String toString() {
+        return locationName;
+    }
 }
