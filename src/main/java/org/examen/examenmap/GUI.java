@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.examen.examenmap.domain.Client;
 import org.examen.examenmap.repository.database.ClientDatabaseRepo;
 import org.examen.examenmap.repository.database.HotelDatabaseRepo;
 import org.examen.examenmap.repository.database.LocationDatabaseRepo;
@@ -32,14 +33,19 @@ public class GUI extends Application {
         stage.setTitle("Hotels");
         stage.setScene(scene);
         stage.show();
+        openClientWindows(srv);
+    }
+
+    private void openClientWindows(Service srv) {
         arguments.forEach(arg -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("client-view.fxml"));
             try {
                 Scene clientScene = new Scene(loader.load(), 500, 500);
                 Stage clientStage = new Stage();
-                ((ClientController) loader.getController()).setClient(srv.getClientWithId(Long.parseLong(arg)));
+                Client client = srv.getClientWithId(Long.parseLong(arg));
+                ((ClientController) loader.getController()).setClient(client);
                 ((ClientController) loader.getController()).updateTable();
-                clientStage.setTitle("Client " + arg);
+                clientStage.setTitle(client.getId() + " " + client.getName());
                 clientStage.setScene(clientScene);
                 clientStage.show();
             } catch (IOException e) {
