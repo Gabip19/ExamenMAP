@@ -37,6 +37,7 @@ public class GUI extends Application {
                 Scene clientScene = new Scene(loader.load(), 500, 500);
                 Stage clientStage = new Stage();
                 ((ClientController) loader.getController()).setClient(srv.getClientWithId(Long.parseLong(arg)));
+                ((ClientController) loader.getController()).updateTable();
                 clientStage.setTitle("Client " + arg);
                 clientStage.setScene(clientScene);
                 clientStage.show();

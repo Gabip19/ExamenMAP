@@ -27,7 +27,7 @@ public class Service {
         this.clientsRepo = clientsRepo;
 
 //        hotelsRepo.save(new Hotel(1d, 1d, "Hotel 111", 3, 20d, Hotel.HotelType.family));
-//        offersRepo.save(new SpecialOffer(1d, 1d, LocalDate.parse("2012-05-18"), LocalDate.parse("2014-12-12"), 10));
+//        offersRepo.save(new SpecialOffer(7d, 1d, LocalDate.parse("2023-03-02"), LocalDate.parse("2023-03-21"), 50));
 //        clientsRepo.save(new Client(1L, "Client 1111", 10, 23, Client.ClientHobby.reading));
     }
 
@@ -65,5 +65,23 @@ public class Service {
 
     public Client getClientWithId(Long id) {
         return clientsRepo.findOne(id);
+    }
+
+    public List<SpecialOffer> getOffersForClient(Client client) {
+        return getAllSpecialOffers()
+                .stream()
+                .filter(offer ->
+                        offer.getEndDate().isAfter(LocalDate.now()) &&
+                        offer.getPercent() < client.getFidelityGrade()
+                )
+                .toList();
+    }
+
+    public Hotel getHotelWithId(Double hotelId) {
+        return hotelsRepo.findOne(hotelId);
+    }
+
+    public Location getLocationWithId(Double locationId) {
+        return locationRepo.findOne(locationId);
     }
 }
