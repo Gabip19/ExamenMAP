@@ -27,14 +27,14 @@ public class ClientController extends GuiController {
     }
 
     private void initTableView() {
-        TableColumn<SpecialOffer, String> hotel = new TableColumn<>("Start Date");
+        TableColumn<SpecialOffer, String> hotel = new TableColumn<>("Hotel");
         hotel.setCellValueFactory(cellData -> {
             SpecialOffer offer = cellData.getValue();
             Double hotelId = offer.getHotelId();
             String hotelName = srv.getHotelWithId(hotelId).getHotelName();
             return new SimpleStringProperty(hotelName);
         });
-        TableColumn<SpecialOffer, String> location = new TableColumn<>("Start Date");
+        TableColumn<SpecialOffer, String> location = new TableColumn<>("Location");
         location.setCellValueFactory(cellData -> {
             SpecialOffer offer = cellData.getValue();
             Double locationId = srv.getHotelWithId(offer.getHotelId()).getLocationId();
