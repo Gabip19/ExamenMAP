@@ -1,8 +1,10 @@
 package org.examen.examenmap.service;
 
+import org.examen.examenmap.domain.Client;
 import org.examen.examenmap.domain.Hotel;
 import org.examen.examenmap.domain.Location;
 import org.examen.examenmap.domain.SpecialOffer;
+import org.examen.examenmap.repository.database.ClientDatabaseRepo;
 import org.examen.examenmap.repository.database.HotelDatabaseRepo;
 import org.examen.examenmap.repository.database.LocationDatabaseRepo;
 import org.examen.examenmap.repository.database.SpecialOfferDatabaseRepo;
@@ -16,14 +18,17 @@ public class Service {
     private final LocationDatabaseRepo locationRepo;
     private final HotelDatabaseRepo hotelsRepo;
     private final SpecialOfferDatabaseRepo offersRepo;
+    private final ClientDatabaseRepo clientsRepo;
 
-    public Service(LocationDatabaseRepo locationRepo, HotelDatabaseRepo hotelsRepo, SpecialOfferDatabaseRepo offersRepo) {
+    public Service(LocationDatabaseRepo locationRepo, HotelDatabaseRepo hotelsRepo, SpecialOfferDatabaseRepo offersRepo, ClientDatabaseRepo clientsRepo) {
         this.locationRepo = locationRepo;
         this.hotelsRepo = hotelsRepo;
         this.offersRepo = offersRepo;
+        this.clientsRepo = clientsRepo;
 
 //        hotelsRepo.save(new Hotel(1d, 1d, "Hotel 111", 3, 20d, Hotel.HotelType.family));
 //        offersRepo.save(new SpecialOffer(1d, 1d, LocalDate.parse("2012-05-18"), LocalDate.parse("2014-12-12"), 10));
+//        clientsRepo.save(new Client(1L, "Client 1111", 10, 23, Client.ClientHobby.reading));
     }
 
     public ArrayList<Location> getAllLocations() {
@@ -56,5 +61,9 @@ public class Service {
                     ).toList();
         }
         throw new RuntimeException("Invalid dates.\n");
+    }
+
+    public Client getClientWithId(Long id) {
+        return clientsRepo.findOne(id);
     }
 }
